@@ -1,0 +1,59 @@
+.call-container {
+    
+    padding: 30px 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    
+    background-color: #f1f5f9;
+      
+      
+      
+  }
+
+  .call-container h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .call-container h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .btn3 {
+    width: 200px;
+    height: 40px;
+    border-radius: 10%;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .btn3.reject {
+    background-color: #dc3545;
+  }
+  
+    .btn3.accept {
+        background-color: #28a745;
+        
+      }
+      .buttonss {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+      }

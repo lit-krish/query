@@ -1,0 +1,9 @@
+.teachersdiv{
+    background-color: aliceblue;
+    position:relative;
+    border: 2px solid whitesmoke;
+    margin-top: -12%;
+    margin-left: 10%;
+    width:fit-content;
+    padding:1rem;
+}

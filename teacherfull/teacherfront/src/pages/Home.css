@@ -1,0 +1,275 @@
+.container {
+    font-family: sans-serif;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .logo{
+    padding-left:25px ;
+  }
+  .logo img {
+    height: 40px;
+    padding: 25px; /* Adjust as needed */
+  }
+  
+  .nav {
+    display: flex;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #333;
+    margin-left: 20px;
+    font-weight: 500;
+  }
+  
+  .nav-link.active {
+    color: #007bff;
+  }
+  
+  
+  
+  
+  
+  .key-features {
+    padding: 25px 25px;
+    text-align: center;
+  }
+  
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .feature-item img {
+    height: 50px; /* Adjust as needed */
+    margin-bottom: 10px;
+  }
+  
+  .feature-desc {
+    color: #777;
+  }
+  
+  .how-it-works {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f0f0f0;
+
+  }
+  
+  .steps {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    justify-content: center;
+    gap: 20px; /* Adds space between items */
+  }
+  
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px; /* Fixed width for larger screens */
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .step:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+
+  .step-number{
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+
+  }
+  
+  .step-number, .video-icon, .credit-card {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .steps {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .step {
+      width: 100%; /* Full width on smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 20px;
+    }
+  
+    .step p {
+      font-size: 14px;
+    }
+  }
+  
+  
+  .testimonials {
+    padding: 50px 0;
+    text-align: center;
+  }
+  
+  .testimonial-text {
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .testimonial-author {
+    font-weight: bold;
+  }
+  
+  .faq {
+    padding: 50px 0;
+  }
+  
+  .faq h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .faq p {
+    margin-bottom: 10px;
+  }
+  
+  .faq-answer {
+    color: #777;
+    margin-bottom: 20px;
+  }
+  .faqstatement{
+    padding-left:25px;
+  }
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 50px 0;
+    border-top: 1px solid #ddd;
+  }
+  
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  
+  .footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 0;
+    border-top: 1px solid #ddd;
+  }
+
+
+  @media(min-width:770px){
+    .footer-container{
+      flex-wrap: wrap;
+    }
+  }
+  
+  .social-icons {
+    display: flex;
+  }
+  
+  .social-icon img {
+    height: 30px; /* Adjust as needed */
+    margin-left: 10px;
+  }
+  /* ... (rest of your CSS) */
+
+  .Video-icon {
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    background-color: #007bff; /* Blue background */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .Video-icon svg {
+    fill: white; /* Make the icon white */
+    width: 19px;
+    height: 19px;
+  }
+  .Credit-card{
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    background-color: #007bff; /* Blue background */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .Credit-card svg{
+    fill: white; /* Make the icon white */
+    width: 19px;
+    height: 19px;
+  }
+.icon{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  
+}
+.icon-box {
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.icon-boxx{
+  width: 50px;
+  height: 50px;
+  background-color: rgb(190, 200, 203);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+.icon-box svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.social-icons {
+  display: flex;
+  gap: 50px; /* Adjust spacing */
+}
