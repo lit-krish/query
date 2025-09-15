@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Videocall } from "./Videocall.js";
+import { postQuestionAPI } from './API/index.js'; 
 
 function Reach() {
 
@@ -33,6 +34,34 @@ function Reach() {
       setshowteachers(false)
     }
   }
+  const [question, setQuestion] = useState("");
+
+  const postQuestion = async () => {
+    if (!question.trim()) {
+      alert("Please type a question before posting.");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://localhost:5001/api/questions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question: question }),
+      });
+
+      const data = await response.json();
+      console.log("Response from backend:",data);
+      alert("Question posted successfully");
+      
+        setQuestion(""); // clear input
+      
+    } catch (error) {
+      console.error("Error posting question:", error);
+      alert("Failed to post question.");
+    }
+  };
 
   return (
     <>
@@ -40,13 +69,14 @@ function Reach() {
       <div className="search-box position-relative border rounded shadow-lg p-2" style={{ border: '2px solid black', width: "100%", maxWidth: "700px", background: "#fff", margin: "40px auto" }}>
 
         {/* Input Field with Upload Button */}
-        <div className="d-flex align-items-center" style={{ height: "180px" }}>
+        <div className="d-flex align-items-center" style={{ height: "230px" }}>
           <input
             type="text"
-            className="form-control p-5 "
-
-            placeholder="Type your question here"
-            style={{ width: "100%", fontSize: "1.2rem", flexGrow: 1, border: "none", outline: "none", textAlign: "center" }}
+            className="form-control p-50 "
+            value={question}
+            onChange={(e)=>setQuestion(e.target.value)}
+            placeholder="Type your question "
+            style={{ width: "100%",  border: "none", outline: "none", textAlign: "center" }}
           />
           <div className="ml-2"> {/* Add margin to separate input and button */}
             <button
@@ -73,9 +103,10 @@ function Reach() {
 
         <div className="d-flex align-items-center justify-content-center gap-3 flex-wrap">
           {/* Get Solution Button */}
-          <div className="d-grid gap-2">
-            <button type="button" className="btn btn-primary" style={{ marginRight: "440px", left: "30px" }} onClick={connectTutors}>
-              Connect to Tutors
+          <div className=" d-flex gap-3">
+            <button type="button" className="btn btn-primary btn-lg px-5 py-30 w-30" onClick={postQuestion}>Post your question</button>
+            <button type="button" className="btn btn-primary btn-lg px-5 py-30 w-30"  onClick={connectTutors}>
+              Connect to Tutors              
             </button>
           </div>
         </div>

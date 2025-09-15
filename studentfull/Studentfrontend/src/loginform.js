@@ -89,8 +89,8 @@ function Loginform() {
             </div>
             :
             <form className="text-end p-4 p-md-5 border rounded-3 bg-body-tertiary">
-              <div className="text-end form-floating mb-3">
-                <input
+              <div className="text-end  mb-3 ">
+                <input className="form-control w-100 "
                   type="email"
                   placeholder="email"
                   name="email"
@@ -99,7 +99,7 @@ function Loginform() {
                 />
               </div>
               {showotpbox &&
-                <input type="text" placeholder="Enter otp" onChange={e => setotp(e.target.value)} value={otp} name="otp" />}
+                <input className="form-control w-100 mb-4" type="text" placeholder="Enter otp" onChange={e => setotp(e.target.value)} value={otp} name="otp" />}
 
               {sendotpbtn ?
                 <button onClick={sendotp} className="w-100 btn btn-lg btn-primary" type="button" style={{ color: "white", textDecoration: "none" }}>

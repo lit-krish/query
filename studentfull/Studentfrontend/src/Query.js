@@ -9,8 +9,6 @@ const containerStyle = {
 function Query() {
   return (
     <>
-
-
       <div className="container">
         <div className="d-flex flex-wrap align-items-center   me-90">
           <h3> <a href="/" className="d-flex align-items-center mb-0  mb-lg-4 link-body-emphasis text-decoration-none fw-bold " style={{ marginLeft: "30px", marginTop: "20px" }}>
@@ -57,14 +55,14 @@ function Query() {
         </div>
       </div>
       <hr className="my-0" style={{ margin: "1px" }} />
-      <div className="container col-xxl-8 px-5 py-5" style={containerStyle} >
+      <div className="w-100 min-vh-100 px-5 py-5"  style={containerStyle}>
         <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
           <div className="col-10 col-sm-8 col-lg-6">
             <img src={img} className="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="400" height="200" loading="lazy" />
           </div>
           <div className="col-lg-6">
             <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">Get Expert Soutions!</h1>
-            <div className="Search-box">
+            <div className="Search-box" >
               {<Reach />}
             </div>
           </div>
