@@ -4,6 +4,8 @@ import { Link } from "react-router";
 import { useSelector } from "react-redux"
 function Home() {
   const user = useSelector(state => state.userreducer.data)
+ 
+  
   return (
     <>
       <div className="container">
@@ -13,6 +15,12 @@ function Home() {
               <a href="/" className="d-flex align-items-start mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <span className="fs-4 " style={{ marginRight: "350px", marginLeft: "50px" }}>QueryConnect</span>
               </a>
+
+
+
+            
+                
+                
 
               <ul className="nav nav-pills">
                 <li className="nav-item"><a href="/" className="nav-link active" aria-current="page">Home</a></li>
@@ -24,6 +32,9 @@ function Home() {
                   <Link to="/Profile" className="nav-item nav-link">Profile</Link>
                   :
                   <Link className="nav-item nav-link" to="/Login">Login</Link>}
+                <li><a href="#" className="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                </svg></a></li>
               </ul>
             </header>
           </div>
@@ -187,8 +198,6 @@ function Home() {
         </footer>
 
       </div>
-
-
 
     </>
   );

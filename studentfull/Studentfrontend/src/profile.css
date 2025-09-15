@@ -1,0 +1,147 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    min-height: 100vh;
+}
+nav{
+    background-color: white;
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.1);
+}
+nav ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+nav li{
+    height: 50px;
+}
+nav a{
+    height: 100%;
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: black;
+}
+nav a:hover{
+    background-color: #f0f0f0;
+}
+nav li:first-child{
+    margin-right: auto;
+}
+.sidebar{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 999;
+    background-color: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: -10px 0 10px rgba(0,0,0,0.1);
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.sidebar li{
+    width: 100%;
+}
+.sidebar a{
+    width: 100%;
+}
+.menu-button{
+    display: none;
+}
+@media(max-width:800px){
+    .hideOnmobile{
+        display: none;
+    }
+    .menu-button{
+    display: block;
+}
+}
+@media(max-width:400px){
+    .sidebar{
+        width: 100%;
+    }
+    
+    
+}
+
+ .searchInput {
+      display: none;
+      margin-top: 10px;
+      padding: 5px;
+      font-size: 16px;
+    }
+  .shift-left{
+    left: -30px;
+  } 
+  .shift-left2{
+    left:-100px;
+  }
+  
+.username-position p {
+  position: relative;
+  top: -250px;     /* move up */
+  left: 600px;    /* move right */
+}
+.user{
+    position: relative;
+    top:47px;
+    right: 90px;
+}
+.username-join{
+    position: relative;
+    top:-265px;
+    left:540px;
+}
+.mins-position{
+   position: relative;
+  top: -210px;     /* move up */
+  left: 290px;  
+}
+.follows-position{
+   position: relative;
+  top: -132px;     /* move up */
+  left: 125px;  
+}
+.logout-button{
+    position: relative;
+    top:-210px;
+    left: 300px
+}
+@media(max-width:400px){
+    .username-position p{
+       margin-top: 150px;
+       position: relative;
+       left:60px;
+    }
+    .user{    
+    position: relative;
+    top:39px;
+    left:-80px;
+} 
+   .username-join{
+  position: relative;
+  top:-260px;
+  left:-10px;
+}
+.mins-position{
+   position: relative;
+  top: -270px;     
+  left: -20px;  
+}
+.logout-button{
+    position: relative;
+    top:-20px;
+    left: 100px
+}
+}
+
+
