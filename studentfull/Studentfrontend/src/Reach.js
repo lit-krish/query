@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Videocall } from "./Videocall.js";
-import { postQuestionAPI } from './API/index.js'; 
+import { PostQuestion } from './API/index.js'; 
 
 function Reach() {
 
@@ -43,15 +43,8 @@ function Reach() {
     }
 
     try {
-      const response = await fetch("https://localhost:5001/api/questions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ question: question }),
-      });
 
-      const data = await response.json();
+      const data = (await PostQuestion({question})).data;
       console.log("Response from backend:",data);
       alert("Question posted successfully");
       

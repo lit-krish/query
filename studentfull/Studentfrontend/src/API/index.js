@@ -21,3 +21,7 @@ export const getallteachers=async()=>{
 export const logout=async()=>{
     return(await api.post("/user/logout"))
 }
+
+export const PostQuestion=async({question})=>{
+    return (await api.post("/post-question",{question}))
+}
