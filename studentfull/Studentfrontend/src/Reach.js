@@ -1,7 +1,9 @@
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { Videocall } from "./Videocall.js";
+import { videocall } from "./Videocall.js";
 import { PostQuestion } from './API/index.js'; 
+import {Videocall} from "./Videocall.js";
+import { Link } from "react-router";
 
 function Reach() {
 
@@ -98,13 +100,13 @@ function Reach() {
           {/* Get Solution Button */}
           <div className=" d-flex gap-3">
             <button type="button" className="btn btn-primary btn-lg px-5 py-30 w-30" onClick={postQuestion}>Post your question</button>
-            <button type="button" className="btn btn-primary btn-lg px-5 py-30 w-30"  onClick={connectTutors}>
-              Connect to Tutors              
-            </button>
+            <Link to="/videocall"><button type="button" className="btn btn-primary btn-lg px-5 py-30 w-30"  onClick={connectTutors}>
+              Connect to Tutors            
+            </button></Link>
           </div>
         </div>
       </div>
-      {showteachers && <Videocall/>}
+      
     </>
   );
 }

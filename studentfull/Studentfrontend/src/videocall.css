@@ -7,3 +7,73 @@
     width:fit-content;
     padding:1rem;
 }
+
+.teachersdiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  transition: 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.video-call-btn {
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border: none;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+  cursor: pointer;
+}
+
+.video-call-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
+  background: linear-gradient(135deg, #00b3ff, #007bff);
+}
+
+.video-call-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(0, 195, 255, 0.6);
+}
+
+.teacher-photo {
+  margin-right: 20px; /* Increase this for more gap */
+  margin-left: 5px; /* Moves image closer to left edge */
+  object-fit: cover;
+}
+
+.teacher-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+
+.teacher-photo {
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.online-dot {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  background-color: #22c55e; /* Tailwind green-500 */
+  border-radius: 50%;
+  border: 2px solid white;
+}

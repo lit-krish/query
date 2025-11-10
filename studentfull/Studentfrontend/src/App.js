@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import * as api from "./API/index.js"
 import Room from "./videocall_room.jsx"
 import { SocketProvider } from './SocketProvider.js';
+import { Videocall } from './Videocall.js';
 
 function App() {
   
@@ -32,6 +33,7 @@ function App() {
     <Router>
      <SocketProvider>
       <Routes>
+        <Route path="/Videocall" element={<Videocall/>}/>
         <Route path="/Query" element={<Query/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/Login" element={<Loginform/>}/>
@@ -40,6 +42,7 @@ function App() {
        <Route path="/Profile" element={<Profile/>}></Route>
        <Route path="/Try" element={<Try/>}/>
        <Route path="/room/:id" element={<Room/>}></Route>
+       
       </Routes>
     </SocketProvider>
       </Router>

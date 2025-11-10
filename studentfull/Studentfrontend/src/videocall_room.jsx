@@ -177,6 +177,7 @@ const Room = () => {
         peernego({offer, remote_socketid})
 
  })},[socket])
+ 
 
     /*useEffect(() => {
         // Assign the stream to the video element once it is available

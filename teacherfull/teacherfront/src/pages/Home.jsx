@@ -31,7 +31,7 @@ function Home() {
                   :
                   <Link className="nav-item nav-link" to="/login">Login</Link>}
                   
-                  {user ?
+                 {/* {user ?
                   <Link className="nav-item nav-link active" to="/">
                     <button
                     type="button"
@@ -40,7 +40,7 @@ function Home() {
                     </button>
                   </Link>
                   :
-                    <></>}
+                    <></>*/}
 
                   {/*<li className="nav-item"><a href="/" className="nav-link">Support</a></li>*/}
 

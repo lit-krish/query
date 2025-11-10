@@ -15,9 +15,6 @@ function Home() {
               <a href="/" className="d-flex align-items-start mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <span className="fs-4 " style={{ marginRight: "350px", marginLeft: "50px" }}>QueryConnect</span>
               </a>
-
-
-
             
                 
                 

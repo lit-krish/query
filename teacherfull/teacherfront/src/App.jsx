@@ -7,6 +7,7 @@ import { SocketProvider, useSocket } from "./SocketProvider.jsx";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Room from "./pages/room"
+import Profile from "./pages/Profile.jsx";
 
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Loginn />} />
-            <Route path="/details" element={<TutorDetails />} />
+            <Route path="/details" element={<Profile />} />
             <Route path="/request" element={<Request />} />
             <Route path="/room/:id" element={<Room />} />
           </Routes>
