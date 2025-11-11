@@ -44,10 +44,6 @@ const Loginn = () => {
     }
   };
 
-  const logout =async ()=>{
-    
-  }
-
   return (
     <div
       className="flex items-center justify-center min-h-screen bg-blue-100 bg-cover bg-center"

@@ -14,8 +14,9 @@ function Request() {
     var Caller_socketid =''
     const navigate = useNavigate()
     const socket=useSocket()
-    console.log(socket)
+    //console.log(socket)
     const user=useSelector(state => state.userreducer.data)
+    console.log(user._id)
     
 
     const answerCall = ({offer, caller_socketid,roomid}) => {
@@ -25,31 +26,29 @@ function Request() {
         setroom(roomid)
         Caller_socketid=caller_socketid
         Offer=offer
-        console.log(caller_socketid)
+        //console.log(caller_socketid)
     }
 
     
 
     const acceptCall = async () => {
-        console.log(room)
+        //console.log(room)
         socket.emit("join-room",room)
         setcallcoming(false)
     }
 
-    console.log(user,socket.id)
+    //console.log(user,socket.id)
 
     useEffect(()=>{
 
         socket.emit("get-online",user._id)
         
-    }
-    
-      ,[])
+    } ,[])
     
     useEffect(() => {
 
         socket.on("room-joined",(room)=>{
-            console.log(room)
+            //console.log(room)
             navigate(`/room/${room}`,{state:{
                 caller_socketid:Caller_socketid,
                 offer:Offer
@@ -60,7 +59,7 @@ function Request() {
 
 
         socket.on("answer-call", (payload) => {
-            //console.log(payload)
+            //console.log("answer-call",payload)
             const {
                 offer,caller_socketid,roomid
             }=payload
@@ -73,7 +72,7 @@ function Request() {
           }
     }, [socket])
 
-    console.log(incommingcall)
+    //console.log(incommingcall)
     return (<div className="call-container">
         {incommingcall ?
             <div className="ml-5">

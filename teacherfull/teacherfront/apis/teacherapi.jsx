@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api=axios.create({
-    baseURL:"https://queryconnect.onrender.com",
+    baseURL:"http://localhost:8000",
     headers:{"Content-Type":"application/json"}
 })
 
@@ -11,14 +11,9 @@ export const login=async(email)=>{
 }
 
 export const verify=async(email,otp)=>{
-    return (await api.post("/verify",{email,otp}))
+    return (await api.post("/verify",{email,otp},{withCredentials:true}))
 }
 
 export const details = async (FormData) => {
-    return (await api.post("/details", FormData, {
-        headers: {
-            "Content-Type": "multipart/form-data", //for changing the data to form data/multipart data
-        },
-    }
-    ))
+    return (await api.post("/details", FormData,{withCredentials:true}))
 }

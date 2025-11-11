@@ -1,15 +1,10 @@
 import React, { Profiler } from "react";
 import "./Home.css"; // Create a Home.css file for styling
 import { Link } from "react-router";
-import { useSelector ,useDispatch} from "react-redux"
+import { useSelector } from "react-redux"
 function Home() {
   const user = useSelector(state => state.userreducer.data)
-  const dispatch =useDispatch();
-
-
-  const log_out =async() =>{
-    dispatch({type:"LOGOUT"});
-  }
+  
   return (
     <>
       <div className="container">
@@ -21,26 +16,15 @@ function Home() {
               </a>
 
               <ul className="nav nav-pills">
-                <li className="nav-item"><a href="/" className="nav-link active" aria-current="page">Home</a></li>
-                <li className="nav-item"><a href="/" className="nav-link">My sessions</a></li>
-                <Link to="/request"><li className="nav-item"><a href="/" className="nav-link">Queryrequest</a></li></Link>
-                <li className="nav-item"><a href="/" className="nav-link">Student Reviews</a></li>
+                <Link to="/" className="nav-item nav-link">Home</Link>
+                <Link to="/sessions" className="nav-item nav-link">My Sessions</Link>
+                <Link  className="nav-item nav-link "to="/request">Query Request</Link>
+                <Link to="/reviews" className="nav-item nav-link">Student Reviews</Link>
                 
                 {user ?
                   <Link className="nav-item nav-link " to="/details">Profile</Link>
                   :
                   <Link className="nav-item nav-link" to="/login">Login</Link>}
-                  
-                  {user ?
-                  <Link className="nav-item nav-link active" to="/">
-                    <button
-                    type="button"
-                    onClick={log_out}>
-                      Logout
-                    </button>
-                  </Link>
-                  :
-                    <></>}
 
                   {/*<li className="nav-item"><a href="/" className="nav-link">Support</a></li>*/}
 
@@ -61,12 +45,11 @@ function Home() {
                 <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">BECOME A TUTOR!</h1>
                 <p className="lead">Share Your Knowledge. Inspire Minds. Start Teaching Today!"
                   Join QueryConnect to make a difference through one-on-one guidance and earn doing what you love.</p>
-                <Link to="/Login">
-                  <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-                    <button type="button" className="btn btn-primary btn-lg px-4 me-md-2" style={{ color: "white", textDecoration: "none" }}>Login</button>
-                    <button type="button" className="btn btn-primary btn-lg px-4 me-md-2" style={{ color: "white", textDecoration: "none" }}>Sign up</button>
-                  </div>
-                </Link>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-start">
+                {user ?
+                  <Link className="btn btn-primary btn-lg px-4 me-md-2 " to="/details" style={{ color: "white", textDecoration: "none" }}>Profile</Link>
+                  :
+                  <Link className="btn btn-primary btn-lg px-4 me-md-2"  style={{ color: "white", textDecoration: "none" }} to="/login">Login</Link>}</div>
               </div>
             </div>
           </div>

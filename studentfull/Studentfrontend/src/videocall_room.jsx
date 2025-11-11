@@ -1,4 +1,4 @@
-import { useEffect, useState ,useRef} from "react"
+import { useEffect, useState, useRef } from "react"
 import { useParams, useLocation } from "react-router-dom"
 import { PeerService } from "./peer.js";
 import { useSocket } from "./SocketProvider.js";
@@ -6,65 +6,80 @@ import { useCallback } from "react";
 import { MdOutlineWifiCalling } from "react-icons/md";
 import { MdOutlineCallEnd } from "react-icons/md";
 import "./videocallroom.css"
-import  ReactPlayer from "react-player"
+import ReactPlayer from "react-player"
 
-const peer=PeerService()
+const peer = PeerService()
 
 const Room = () => {
     const [mystream, setMystream] = useState()
-    const {id} = useParams()
+    const { id } = useParams()
     const location = useLocation()
     const receiverid = location.state?.remoteid
     const [remotestream, setremotestream] = useState()
     const [callended, setCallended] = useState(false)
-    const videoRef = useRef(null);
-    const remoteVideoRef=useRef(null)
-    const socket=useSocket()
-    var receiverSocketid=''
-    console.log(receiverSocketid)
+    const socket = useSocket()
+    var receiverSocketid = ''
+    //console.log(receiverSocketid)
     console.log(remotestream)
     console.log(mystream)
+    const localRef = useRef(null);
+    const remoteRef = useRef(null);
 
-    const sendstreams = useCallback(() => {
-        console.log("works")
+    useEffect(() => {
+        if (mystream && localRef.current) {
+            localRef.current.srcObject = mystream;
+        }
+    }, [mystream]);
+
+    useEffect(() => {
+        if (remotestream && remoteRef.current) {
+            remoteRef.current.srcObject = remotestream;
+        }
+    }, [remotestream]);
+
+    /*const sendstreams = useCallback(() => {
+        //console.log("works")
         if(peer && mystream){
         for (const track of mystream.getTracks()) {
                         peer.peer.addTrack(track, mystream)
                         console.log("added track")
                     }
                 }
-    },[mystream])
+    },[mystream])*/
 
-    if(mystream)
-    console.log(mystream?.getTracks())
+    /*if(mystream)
+    console.log(mystream?.getTracks())*/
 
-    if(remotestream)
+    if (remotestream)
         console.log(remotestream?.getTracks())
 
     const startcall = async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+        const stream = await navigator.mediaDevices.getUserMedia({video:true,audio:true})
         //sendstreams()
         setMystream(stream)
+        for (const track of stream.getTracks()) {
+            peer.peer.addTrack(track, stream)
+            console.log("added track")
+        }
         const offer = await peer.getoffer()
-        socket.emit("start-call",{remoteid:receiverid,offer,roomid:id})
+        socket.emit("start-call", { remoteid: receiverid, offer, roomid: id })
     }
 
     /*const rejectCall = () => {
         socket.emit("call-ended", caller_socketid)
     }*/
 
-    const callaccepted = async(answer) => {
+    const callaccepted = async (answer) => {
         //console.log("Before setting remote desc:", peer.peer.signalingState);
         await peer.setremoteDescription(answer)
         //console.log("Before setting remote desc:", peer.peer.signalingState);
     }
 
-    
+
 
     const callEnded = () => {
         setCallended(true)
-        if (mystream)
-        {
+        if (mystream) {
             mystream?.getTracks().forEach(track => track.stop());
             setMystream(null)
         }
@@ -76,31 +91,29 @@ const Room = () => {
     }
 
     const handlenegoneeded = async () => {
-        console.log("nego-needed")
+        //console.log("nego-needed")
         const offer = await peer.getoffer()
-        console.log("offer",receiverSocketid)
-        socket.emit("nego-needed",{ offer, remote_socketid:receiverSocketid})
+        //console.log("offer",receiverSocketid)
+        socket.emit("nego-needed", { offer, remote_socketid: receiverSocketid })
     }
 
     const negodone = async (answer) => {
-        console.log("nego-done",answer)
+        //console.log("nego-done",answer)
         //console.log("Before setting remote desc:", peer.peer.signalingState);
         await peer.setremoteDescription(answer)
         //console.log("Before setting remote desc:", peer.peer.signalingState);
     }
 
-    useEffect(()=>{
-        socket.on("get-receiver-socket-id",(receiver_socketid)=>receiverSocketid=receiver_socketid)
+    useEffect(() => {
+        socket.on("get-receiver-socket-id", (receiver_socketid) => receiverSocketid = receiver_socketid)
 
-        return()=>socket.off("get-receiver-socket-id")
-    },[socket])
+        return () => socket.off("get-receiver-socket-id")
+    }, [socket])
 
-    useEffect(()=>{
-       sendstreams()
-    },[mystream])
+    
 
-    useEffect(()=>{
-        peer.peer.addEventListener("negotiationneeded",handlenegoneeded)
+    useEffect(() => {
+        peer.peer.addEventListener("negotiationneeded", handlenegoneeded)
 
         peer.peer.onicecandidate = (event) => {
             if (event.candidate) {
@@ -110,13 +123,13 @@ const Room = () => {
                 });
             }
         };
-        
 
-    },[peer.peer])
+
+    }, [peer.peer])
 
     useEffect(() => {
 
-        socket.on("call-accepted", ({answer,caller_socketid}) => {
+        socket.on("call-accepted", ({ answer, caller_socketid }) => {
             console.log("call-accepted")
             console.log(answer)
             callaccepted(answer)
@@ -135,35 +148,35 @@ const Room = () => {
                 peer.peer.addIceCandidate(new RTCIceCandidate(candidate));
             }
         });
-        
 
-        return()=>{
+
+        return () => {
             socket.off("answer-call")
             socket.off("call-accepted")
             socket.off("call-ended")
             socket.off("nego-done")
             socket.off("ice-candidate")
         }
-    },[socket])
+    }, [socket])
 
     useEffect(() => {
         if (!peer?.peer) return;
 
         const handleTrack = async ev => {
-        console.log("Got tracks",ev);
-        const remotestream = ev.streams[0];
-        setremotestream(remotestream);
+            console.log("Got tracks", ev);
+            const remotestream = ev.streams[0];
+            setremotestream(remotestream);
         };
 
         peer.peer.addEventListener('track', handleTrack);
 
         return () => {
-        peer.peer.removeEventListener('track', handleTrack);
+            peer.peer.removeEventListener('track', handleTrack);
         };
-          
-    },[peer.peer])
 
-    const peernego = async ({offer, remote_socketid}) => {
+    }, [peer.peer])
+
+    /*const peernego = async ({offer, remote_socketid}) => {
         console.log("peernego offer-",offer)
         sendstreams()
         const answer = await peer.getAnswer(offer)
@@ -190,17 +203,17 @@ const Room = () => {
            remoteVideoRef.current.srcObject=remotestream
         }
      },[remotestream])*/
-     console.log(peer.peer)
+    console.log(peer.peer)
     return (
         <div>
             <div className="media-streams">
-                {mystream && (<ReactPlayer url={mystream} playing={true} muted={true}idth="300px" height="200px" />)}
-                {remotestream &&(<ReactPlayer url={remotestream} ref={remoteVideoRef} playing={true} width="300px" height="200px" style={{ marginTop: '20px' }}/>)}
+                <video ref={localRef} autoPlay muted style={{ width: "500px", height: "400px", marginTop: "10rem" }}></video>
+                <video ref={remoteRef} autoPlay style={{ width: "500px", height: "400px", marginTop: "10rem" }}></video>
             </div>
-                <div className="callbtns">
-                <div className="btn"><MdOutlineWifiCalling className="call-icon"  color="green" size={27}/><p onClick={startcall} style={{color:"green"}}>Call</p></div>
-                <div className="btn"><MdOutlineCallEnd className="call-icon" color="red" size={27}/><p onClick={callEnded} style={{color:"red"}} >End</p></div>
-                </div>
+            <div className="callbtns">
+                <div className="btn"><MdOutlineWifiCalling className="call-icon" color="green" size={27} /><p onClick={startcall} style={{ color: "green" }}>Call</p></div>
+                <div className="btn"><MdOutlineCallEnd className="call-icon" color="red" size={27} /><p onClick={callEnded} style={{ color: "red" }} >End</p></div>
+            </div>
         </div>
     )
 }

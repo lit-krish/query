@@ -97,8 +97,8 @@ export const verify = async (req, res) => {
 
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "strict",
+        secure: false,
+        sameSite: "lax",
         maxAge: 3600000,
       });
       return res.status(200).json(teacherinfo)
@@ -110,7 +110,8 @@ export const verify = async (req, res) => {
 }
 
 export const detail = async (req, res) => {
-  const { email, firstname, lastname, gender, availablity, qualifcation, qualifcationstatus, experience, expert, occupation } = req.body
+  //console.log("I am caled")
+  const { email, firstname, lastname, gender, qualifcation, qualifcationstatus, experience, occupation,subjects } = req.body
 
   try {
     let someone = await Teacher.findOne({ email })
@@ -120,36 +121,30 @@ export const detail = async (req, res) => {
     if (!someone) {
       return res.status(404).json("user not found")
     }
+
     someone.firstname = firstname
     someone.lastname = lastname
     someone.gender = gender
-    someone.availablity = availablity
     someone.qualification = qualifcation
-    someone.qualistatus = qualifcationstatus
+    someone.qualificationstatus = qualifcationstatus
     someone.experience = experience
-    someone.expert = expert
     someone.occupation = occupation
-    someone.doc = req.file.buffer
-    someone.docname = req.file.originalname + "-" + Date.now()
-    
-    console.log(req.file.originalname)
+    someone.subjects=subjects.split(",").map(item=>item.trim());
 
     await someone.save();
-    
-    console.log("file saved")
+
+    console.log("Details saved successfully",someone)
     
     return res.status(200).json({
-      First_name: firstname,
-      Last_name: lastname,
-      Gender: gender,
-      Available: availablity,
-      Quali: qualifcation,
-      Status: qualifcationstatus,
-      Exp: experience,
-      Expert: expert,
-      Occupation: occupation,
-      file_uploaded: req.file.originalname
-
+      firstname: someone.firstname,
+      lastname: someone.lastname,
+      gender: someone.gender,
+      qualification: someone.qualification,
+      status: someone.qualificationstatus,
+      experience: someone.experience,
+      subjects:someone.subjects,
+      occupation: someone.occupation,
+      _id: someone._id,
     })
   }
   catch (err) {

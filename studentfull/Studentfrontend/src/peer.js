@@ -1,9 +1,5 @@
-let peer=null
 export const PeerService=()=>{
-
-   if(!peer)
-   {
-     peer=new RTCPeerConnection({
+     const peer=new RTCPeerConnection({
         iceServers: [
             {
                 urls: [
@@ -13,7 +9,6 @@ export const PeerService=()=>{
             }
         ]
      })
-   }
 
    const getoffer=async()=>{
       if(peer)

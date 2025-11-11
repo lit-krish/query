@@ -18,48 +18,68 @@ const room = () => {
     const offer = location.state.offer
 
     const socket = useSocket()
-    const videoRef = useRef(null);
-    const remoteVideoRef = useRef(null)
+    const localRef = useRef(null);
+    const remoteRef = useRef(null);
+    console.log(localRef)
+    console.log(remoteRef)
+
+    useEffect(() => {
+        if (mystream && localRef.current) {
+            localRef.current.srcObject = mystream;
+        }
+    }, [mystream]);
+
+    useEffect(() => {
+        if (remotestream && remoteRef.current) {
+            remoteRef.current.srcObject = remotestream;
+        }
+    }, [remotestream]);
+
+    //console.log(typeof remotestream)
+    //console.log(typeof mystream)
 
     //console.log("remote", remotestream[0])
     //.log("socket", caller_socketid)
     //console.log(location.state)
 
 
-    const sendstreams = useCallback(() => {
+    /*const sendstreams = useCallback(() => {
         if (mystream) {
             for (const track of mystream.getTracks()) {
                 peer.peer.addTrack(track, mystream)
             }
         }
-    }, [mystream])
+    }, [mystream])*/
 
-   
-    const change_ui=()=>{
-        const btns=document.getElementsByClassName("callpick")
-        for(let i=0;i<btns.length;i++)
-        {
-            btns[i].style.top="90%"
+
+    const change_ui = () => {
+        const btns = document.getElementsByClassName("callpick")
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].style.top = "90%"
         }
     }
-    
-    const removeCallBtn=()=>{
-        document.getElementsByClassName("accpt")[0].style.display="none"
-        document.getElementsByClassName("btn2")[0].style.display="none"
+
+    const removeCallBtn = () => {
+        document.getElementsByClassName("accpt")[0].style.display = "none"
+        document.getElementsByClassName("btn2")[0].style.display = "none"
     }
     const acceptCall = async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({audio: true,video: true})
+        const stream = await navigator.mediaDevices.getUserMedia({video:true,audio:true})
         setMystream(stream)
-        
+        for (const track of stream.getTracks()) {
+            peer.peer.addTrack(track, stream)
+            console.log("added track")
+        }
+
         change_ui()
-        
-        sendstreams()
+
+        //sendstreams()
         const answer = await peer.getAnswer(offer)
         socket.emit("call-accepted", { caller_socketid, answer })
         removeCallBtn()
 
     }
-   // useEffect(()=>{
+    // useEffect(()=>{
     //    acceptCall()
     //},[])
 
@@ -69,7 +89,7 @@ const room = () => {
         socket.emit("nego-final", { answer, remote_socketid })
     }
 
-    const handlenegoneeded = async () => {
+    /*const handlenegoneeded = async () => {
         console.log("nego-needed")
         const offer = await peer.getoffer()
         socket.emit("nego-needed", { offer, remote_socketid: caller_socketid })
@@ -81,7 +101,7 @@ const room = () => {
         await peer.setRemoteDescription(answer)
         console.log(peer.peer.remoteDescription)
         console.log("Before setting remote desc:", peer.peer.signalingState);
-    }
+    }*/
 
     useEffect(() => {
         socket.on("peer-nego-needed", ({ offer, remote_socketid }) => {
@@ -112,6 +132,7 @@ const room = () => {
         const handleTrack = async ev => {
             console.log("Got Tracks");
             const remotestream = ev.streams[0];
+            console.log(ev.streams[0]);
             setremotestream(remotestream);
         };
 
@@ -140,9 +161,7 @@ const room = () => {
 
     },[peer.peer])*/
 
-    useEffect(() => {
-        sendstreams()
-    }, [mystream])
+    
 
 
     if (mystream)
@@ -168,26 +187,26 @@ const room = () => {
     return (
         <div>
             <div className="media-streams">
-                {mystream && (<ReactPlayer url={mystream} playing={true} muted={true} width="500px" height="400px" style={{ marginTop: "10rem" }} />)}
-                {remotestream && (<ReactPlayer url={remotestream} playing={true} width="500px" height="400px" style={{ marginTop: "10rem" }} />)}
+                <video ref={localRef} autoPlay onPlaying={() => console.log("local")} muted style={{ width: "500px", height: "400px", marginTop: "10rem" }}></video>
+                <video ref={remoteRef} onPlaying={() => console.log("remote")} autoPlay style={{ width: "500px", height: "400px", marginTop: "10rem" }}></video>
             </div>
-            
-            <div className="callpick"  >
-            <div>
-            <div className="btn2" onClick={acceptCall} >
-                
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-outbound-fill" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5" />
-                </svg>
-            </div>
-            <p className="accpt">Accept</p></div>
-            <div>
-            <div className="btn1" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-plus-fill" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5" />
-            </svg>
 
-            </div><p>Reject</p>
-            </div>
+            <div className="callpick"  >
+                <div>
+                    <div className="btn2" onClick={acceptCall} >
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-outbound-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </div>
+                    <p className="accpt">Accept</p></div>
+                <div>
+                    <div className="btn1" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-plus-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5" />
+                    </svg>
+
+                    </div><p>Reject</p>
+                </div>
             </div>
         </div>
     )

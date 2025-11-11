@@ -9,6 +9,9 @@ const userreducer=(state={data:JSON.parse(localStorage.getItem("teacher"))},acti
         case "LOGOUT":
             localStorage.removeItem("teacher")
             return {...state,data:null}
+        case "UPDATE":
+            localStorage.setItem("teacher",JSON.stringify(action?.data))
+            return {...state,data:action?.data}
         default:
             return state
     }

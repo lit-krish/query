@@ -1,3 +1,4 @@
+import Teacher from "../Models/Teacher.js"
 const videocall=(io)=>{
 
     const socket_to_room=new Map()
@@ -7,43 +8,65 @@ const videocall=(io)=>{
 
         console.log("User connected"+socket.id)
 
-        socket.on("get-online",(userid)=>{
+        socket.on("get-online",async(userid)=>{
             userid_to_socket.set(userid,socket.id)
+            /*const teacherinfo = await Teacher.findOne({_id: userid })
+            if(teacherinfo){
+                teacherinfo.availability="online"
+                await teacherinfo.save()
+            }*/
+            //console.log("user-Id",userid,"")
         })
 
         socket.on("join-room",(room)=>{
+            console.log("join-room",room)
             socket_to_room.set(socket.id,room)
             socket.emit("room-joined",room)
         })
 
         socket.on("start-call",({remoteid,offer,roomid})=>{
+            console.log("start-call",remoteid,offer,roomid)
             const remote_socket_id=userid_to_socket.get(remoteid)
-            socket.to(remote_socket_id).emit("answer-call",(offer,socket.id,roomid))
+             console.log("remote_socket_id",remote_socket_id)
+            socket.emit("get-receiver-socket-id",remote_socket_id)
+            socket.to(remote_socket_id).emit("answer-call",{offer,caller_socketid:socket.id,roomid})
         })
 
         socket.on("call-accepted",({caller_socketid,answer})=>{
-            socket.to(caller_socketid).emit("call-accepted",socket.id,answer)
+            console.log("call-accepted",caller_socketid,answer)
+            socket.to(caller_socketid).emit("call-accepted",{caller_socketid:socket.id,answer})
         })
 
         socket.on("call-ended",(caller_socketid)=>{
+            console.log("call-ended")
             socket.to(caller_socketid).emit("call-ended")
         })
 
-        socket.on("nego-needed",({offer,remoteid})=>{
-            const remote_socket_id=userid_to_socket.get(remoteid)
-            socket.to(remote_socket_id).emit("peer-nego-needed",(offer,socket.id))
+        socket.on("nego-needed",({offer,remote_socketid})=>{
+            console.log("nego-needed");
+            socket.to(remote_socketid).emit("peer-nego-needed",{offer,remote_socketid:socket.id})
         })
 
-        socket.on("nego-final",({answer,caller_socketid})=>{
-            socket.to(caller_socketid).emit("nego-done",answer)
+        socket.on("nego-final",({answer,remote_socketid})=>{
+            console.log("nego-final");
+            socket.to(remote_socketid).emit("nego-done",answer)
         })
 
-        socket.on("disconnect", () => {
+        socket.on("disconnect",() => {
             userid_to_socket.forEach((val, key) => {
-                if (val === socket.id) userid_to_socket.delete(key);
+                if (val === socket.id)
+                { 
+                    userid_to_socket.delete(key);
+                    /*Teacher.findOne({_id: key}).then(teacherinfo=>{
+                        teacherinfo.availability="offline";
+                        teacherinfo.save()
+                    })
+                    .catch(err)*/
+                }
             });
         
             socket_to_room.delete(socket.id);
+            
         });
         
     })
