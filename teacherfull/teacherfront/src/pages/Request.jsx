@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import { useEffect, useState, } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../SocketProvider.jsx";
@@ -85,9 +85,9 @@ function Request() {
                 </div>
             </div>
             :
-            <div>
-
-            </div>}
+            <h5 style={{textDecoration:"underline"}}>
+              No Call Requests
+            </h5>}
     </div>);
 }
 export default Request;

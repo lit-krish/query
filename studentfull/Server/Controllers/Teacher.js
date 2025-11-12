@@ -3,7 +3,7 @@ import Teacher from "../Models/Teacher.js";
 
 export const getTeachers=async(req,res)=>{
      try{
-        const teacherdata=await Teacher.find()
+        const teacherdata=await Teacher.find().select("-otp -otpExpiry")
         return res.status(200).json(teacherdata)
      }
      catch(error)

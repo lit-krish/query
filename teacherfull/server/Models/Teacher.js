@@ -13,12 +13,10 @@ const TeacherSchema=new mongoose.Schema({
     gender:{type:"String"},
     availablity:{type:"String"},//day when available generally
     qualification:{type:"String" },//degree
-    qualistatus:{type:"String"},//ongoin or completed
+    qualificationstatus:{type:"String"},//ongoin or completed
     experience:{type:"String",default:"none",},//workes as teacher or none
-    expert:{type:"String"},//known dubjects
     occupation:{type:"String",default:"none"},//current job
-    doc:{type:"buffer"},
-    docname:{type:"String"}
+     subjects:{type:["String"]},//subjects to teach
 })
 
 export default mongoose.model("Teacher",TeacherSchema)

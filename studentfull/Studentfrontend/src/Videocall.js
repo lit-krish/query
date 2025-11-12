@@ -74,36 +74,26 @@ export const Videocall = () => {
               <div className="card shadow-sm p-3 d-flex flex-row align-items-center justify-content-between bg-light border-0 rounded-4">
                 <div className="d-flex align-items-center position-relative">
                   <div className="position-relative">
-                    <img
-                      src={
-                        teacher?.photo ||
-                        "https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/dummy_image/thumb/004.webp"
-                      }
-                      alt={`${teacher?.firstname} ${teacher?.lastname}`}
-                      className="rounded-circle me-3 teacher-photo"
-                      width="70"
-                      height="70"
-                    />
+                    <div style={{background:"lightgray",color:"black",width:"4rem",height:"4rem",borderRadius:"50%",display:"flex",justifyContent:"center",alignItems:"center",border:"2px solid lightblue",fontWeight:"bold"}}>
+                      <div>{teacher?.firstname?.charAt(0).toUpperCase()}</div>
+                    </div>
                     
                     {isOnline && <span className="online-dot"></span>}
                   </div>
 
                   <div className="teacher-info">
-                    <h5 className="mb-1 fw-semibold">
-                      {`${teacher?.firstname || ""} ${
-                        teacher?.lastname || ""
-                      }`.trim() || "Unknown"}
+                    <h5 className="mx-2 mb-1 fw-semibold">
+                     {teacher.firstname} {teacher.lastname}
                     </h5>
+                     <p className="mx-2 mb-0 text-secondary fw-semibold">
+                      {teacher?.occupation}
+                    </p>
 
-                    <p className="mb-1 text-muted small">{teacher?.email}</p>
-                    <p className="mb-0 text-secondary fw-semibold">
-                      Exp: {teacher?.experience || "3 year"}
-                    </p>
-                    <p className="mb-0 text-secondary fw-semibold">
-                      Subject: {teacher?.subject || "Operating system"}
-                    </p>
-                    <p className="mb-0 text-secondary fw-semibold">
-                      Occupation: {teacher?.occupation || "teacher"}
+                    <div className="mx-2 mb-0 text-secondary fw-semibold">
+                      Exp: {teacher?.experience>0 ? `${teacher?.experience} years` : "Beginner"}
+                    </div>
+                    <p className="mx-2 mb-0 text-secondary fw-semibold">
+                      Specialization: {teacher?.subjects?.toString()}
                     </p>
                   </div>
                 </div>
